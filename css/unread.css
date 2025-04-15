@@ -1,0 +1,97 @@
+/* Unread messages styling - extremely high specificity */
+body div.chat-item.unread .chat-name,
+html body div.chat-item.unread .chat-name,
+#app div.chat-item.unread .chat-name,
+html body #app div.chat-item.unread .chat-name,
+.messenger-container div.chat-item.unread .chat-name,
+html body .messenger-container div.chat-item.unread .chat-name,
+#app .messenger-container div.chat-item.unread .chat-name,
+html body #app .messenger-container div.chat-item.unread .chat-name,
+.messages-container div.chat-item.unread .chat-name,
+html body .messages-container div.chat-item.unread .chat-name,
+#app .messages-container div.chat-item.unread .chat-name,
+html body #app .messages-container div.chat-item.unread .chat-name,
+.chat-list div.chat-item.unread .chat-name,
+html body .chat-list div.chat-item.unread .chat-name,
+#app .chat-list div.chat-item.unread .chat-name,
+html body #app .chat-list div.chat-item.unread .chat-name {
+    font-weight: 700 !important; 
+    color: #000000 !important;
+}
+
+body div.chat-item.unread .chat-preview,
+html body div.chat-item.unread .chat-preview,
+#app div.chat-item.unread .chat-preview,
+html body #app div.chat-item.unread .chat-preview,
+.messenger-container div.chat-item.unread .chat-preview,
+html body .messenger-container div.chat-item.unread .chat-preview,
+#app .messenger-container div.chat-item.unread .chat-preview,
+html body #app .messenger-container div.chat-item.unread .chat-preview,
+.messages-container div.chat-item.unread .chat-preview,
+html body .messages-container div.chat-item.unread .chat-preview,
+#app .messages-container div.chat-item.unread .chat-preview,
+html body #app .messages-container div.chat-item.unread .chat-preview,
+.chat-list div.chat-item.unread .chat-preview,
+html body .chat-list div.chat-item.unread .chat-preview,
+#app .chat-list div.chat-item.unread .chat-preview,
+html body #app .chat-list div.chat-item.unread .chat-preview {
+    font-weight: 600 !important;
+    color: #000000 !important;
+}
+
+/* Professional Unread count badge styling */
+body div.chat-item.unread .chat-unread,
+html body div.chat-item.unread .chat-unread,
+#app div.chat-item.unread .chat-unread,
+html body #app div.chat-item.unread .chat-unread,
+.messenger-container div.chat-item.unread .chat-unread,
+html body .messenger-container div.chat-item.unread .chat-unread,
+#app .messenger-container div.chat-item.unread .chat-unread,
+html body #app .messenger-container div.chat-item.unread .chat-unread,
+.messages-container div.chat-item.unread .chat-unread,
+html body .messages-container div.chat-item.unread .chat-unread,
+#app .messages-container div.chat-item.unread .chat-unread,
+html body #app .messages-container div.chat-item.unread .chat-unread,
+.chat-list div.chat-item.unread .chat-unread,
+html body .chat-list div.chat-item.unread .chat-unread,
+#app .chat-list div.chat-item.unread .chat-unread,
+html body #app .chat-list div.chat-item.unread .chat-unread,
+.chat-unread {
+    background-color: #000000 !important; /* Black theme */
+    color: white !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 6px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    position: relative !important;
+    transform: scale(0.9) !important;
+    animation: pulse-badge 2s infinite !important;
+}
+
+/* Unread message row styling */
+div.chat-item.unread {
+    background-color: rgba(238, 238, 238, 0.4) !important; /* Light gray background for unread rows */
+    position: relative !important;
+}
+
+/* Animation for newly received messages */
+@keyframes pulse-badge {
+    0% {
+        transform: scale(0.9);
+    }
+    10% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(0.9);
+    }
+}

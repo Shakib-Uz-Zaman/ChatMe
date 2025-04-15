@@ -1,0 +1,88 @@
+/* Reset all chat-item styles to match requirements */
+.chat-item {
+    /* Reset all properties with high specificity */
+    all: unset !important;
+    
+    /* Define only the required properties */
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 14px 16px !important;
+    background-color: #ffffff !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    z-index: 1 !important;
+    -webkit-tap-highlight-color: transparent !important;
+    width: calc(100% - 32px) !important; /* Adjust width accounting for padding */
+}
+
+/* Unread message styling directly in reset-chat-styles.css for maximum specificity */
+.chat-item.unread .chat-name {
+    font-weight: 700 !important;
+    color: #000000 !important;
+}
+
+.chat-item.unread .chat-preview {
+    font-weight: 600 !important;
+    color: #000000 !important;
+}
+
+/* Ensure hover never adds any effects */
+.chat-item:hover,
+.chat-item:focus,
+.chat-item:active {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    transform: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    animation: none !important;
+    outline: none !important;
+}
+
+/* Chat list container */
+.chat-list {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    background-color: #ffffff !important;
+}
+
+/* Enhanced ripple effect - applies to both chat items and search bar */
+.chat-ripple,
+.ripple {
+    position: absolute !important;
+    background-color: rgba(0, 0, 0, 0.25) !important; /* Darker color for visibility */
+    border-radius: 50% !important;
+    pointer-events: none !important;
+    z-index: 9999 !important; /* Extremely high z-index to ensure visibility */
+    animation: ripple-animation-fix 0.6s linear !important;
+    transform: scale(0) !important;
+    opacity: 1 !important;
+}
+
+/* Search wrapper ripple styles */
+.search-wrapper {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Animation keyframes with !important to ensure they apply */
+@keyframes ripple-animation-fix {
+    0% {
+        transform: scale(0) !important;
+        opacity: 0.9 !important;
+    }
+    100% {
+        transform: scale(2.5) !important;
+        opacity: 0 !important;
+    }
+}

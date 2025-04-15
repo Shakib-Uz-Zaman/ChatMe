@@ -1,0 +1,1315 @@
+/**
+ * Fullscreen chat styles
+ * Styles for the fullscreen chat feature that appears when a chat is opened
+ * Responsive design for both mobile and desktop
+ */
+
+/* Message reactions */
+.message-reactions {
+    position: absolute;
+    bottom: -5px;
+    border-radius: 14px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    display: flex;
+    padding: 1px 3px;
+    z-index: 10;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    align-items: center;
+}
+
+.message-sent .message-reactions {
+    right: 0px;
+    left: auto;
+}
+
+.message-received .message-reactions {
+    right: 0px;
+    left: auto;
+}
+
+.reaction-emoji {
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 20; /* ইমোজিটির জেট ইনডেক্স বাড়ানো হয়েছে, যাতে বাবলের উপরে থাকে */
+}
+
+.reaction-emoji:hover {
+    transform: scale(1.2);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.reaction-emoji.active {
+    transform: scale(1.2);
+}
+
+.reaction-count {
+    font-size: 10px;
+    margin-left: 1px;
+    font-weight: 500;
+    color: #555;
+}
+
+.reaction-emoji-selector {
+    position: fixed; /* মোবাইলে fixed ব্যবহার করা হচ্ছে পজিশন বজায় রাখার জন্য */
+    background-color: white; /* শুধু সিলেক্টরের ব্যাকগ্রাউন্ড সাদা থাকবে */
+    border-radius: 30px; /* ছোট মেনু তৈরি করা হচ্ছে */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(245, 245, 245, 0.5);
+    display: flex;
+    padding: 8px 10px; /* প্যাডিং কমানো হলো আরেকটু ছোট করতে */
+    z-index: 9999;
+    transition: all 0.2s ease;
+    animation: fade-in 0.2s ease; /* বাউন্স অ্যানিমেশন বাদ দিয়ে সিম্পল ফেইড-ইন করা হলো */
+    gap: 2px; /* গ্যাপ কমানো হলো */
+    min-width: auto;
+    max-width: calc(100vw - 20px); /* স্ক্রিনের কিনারায় 10px স্পেস রাখে */
+    width: auto; /* কনটেন্ট অনুসারে সাইজ নেবে */
+    justify-content: center;
+    pointer-events: auto;
+    transform-origin: center bottom; /* মেসেঞ্জারের মতো অ্যানিমেশন পজিশন */
+}
+
+/* ডেস্কটপ মোডে অবস্থান ঠিক করা */
+@media (min-width: 768px) {
+    .reaction-emoji-selector {
+        position: absolute; /* ডেস্কটপে absolute পজিশন বিষয় কন্টেইনার এর ভিতরে থাকবে */
+        max-width: calc(100% - 20px); /* container width - margin */
+    }
+}
+
+/* ছোট ডিভাইসের জন্য অ্যাডজাস্টমেন্ট */
+@media (max-width: 375px) {
+    .reaction-emoji-selector {
+        padding: 4px 4px;
+    }
+    
+    .reaction-option {
+        width: 26px;
+        height: 26px;
+        font-size: 15px;
+        margin: 0 1px; /* মার্জিন খুব ছোট করছি */
+    }
+}
+
+/* ক্ষুদ্র স্ক্রিনের জন্য আরও অ্যাডজাস্টমেন্ট */
+@media (max-width: 320px) {
+    .reaction-emoji-selector {
+        padding: 3px 3px;
+    }
+    
+    .reaction-option {
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        margin: 0 1px;
+    }
+}
+
+/* Animation removed and replaced with simple fade-in */
+
+.reaction-option {
+    margin: 0 3px; /* গ্যাপ কমানো হলো */
+    font-size: 22px; /* ফন্ট সাইজ ছোট করা হলো */
+    width: 36px; /* আরো ছোট সাইজের আইকন */
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.2s cubic-bezier(0.18, 1.25, 0.4, 1); /* ফেসবুক মেসেঞ্জারের মতো বাউন্স অ্যানিমেশন */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.98);
+    position: relative;
+    z-index: 25; /* জেট ইনডেক্স বাড়ানো হয়েছে ইমোজি সম্পূর্ণভাবে দেখা যাওয়ার জন্য */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02); /* অতি হালকা শ্যাডো */
+    will-change: transform, opacity; /* পারফরম্যান্স অপ্টিমাইজেশন */
+    animation: reaction-option-fade-in 0.15s ease forwards; /* ফেইড-ইন অ্যানিমেশন জোড় করা হল */
+    opacity: 0;
+    animation-delay: calc(var(--index, 0) * 0.04s); /* ইমোজিগুলি আরও দ্রুত সিকুয়েনশিয়ালি দেখাবে */
+}
+
+@keyframes reaction-option-fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.7);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-3px) scale(1.1);
+    }
+    80% {
+        transform: translateY(1px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.reaction-option:hover {
+    transform: scale(1.4); /* ফেসবুক মেসেঞ্জারে হোভার এফেক্ট বড় */
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); /* হোভারে হালকা শ্যাডো */
+    z-index: 26; /* হোভারে একটু সামনে আসবে */
+}
+
+.reaction-option.active {
+    background-color: rgba(240, 245, 255, 0.9); /* আরও হালকা নীল বেকগ্রাউন্ড */
+    transform: scale(1.2); /* ছোট স্কেল */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01); /* আরও হালকা শ্যাডো */
+}
+
+/* Cancel button removed */
+
+.reaction-users {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    position: absolute;
+    z-index: 12;
+    font-size: 12px;
+    width: max-content;
+    max-width: 200px;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+.reaction-users.visible {
+    display: block;
+    animation: fade-in 0.2s ease;
+}
+
+/* Message options menu - Messenger bottom bar style */
+.message-options {
+    position: absolute;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    width: auto;
+    min-width: 240px;
+    max-width: 320px;
+    overflow: hidden;
+    animation: pop-in 0.2s cubic-bezier(0.18, 1.25, 0.4, 1);
+    transform-origin: top center;
+    display: block;
+    border: none;
+}
+
+/* Bottom bar style for options menu (messenger style) */
+.message-options-bottom {
+    position: fixed; /* মোবাইলে fixed ব্যবহার করা হচ্ছে */
+    bottom: 70px; 
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    border-radius: 0;
+    background-color: #f5f5f5;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 3px 0;
+    animation: slide-up 0.2s cubic-bezier(0.18, 1.25, 0.4, 1);
+    transform-origin: bottom center;
+}
+
+/* ডেক্সটপে মেসেজ অপশন মোবাইল এর মত থাকবে */
+@media (min-width: 768px) {
+    .message-options-bottom {
+        position: absolute; /* ডেস্কটপে absolute পজিশন বিষয় কন্টেইনার এর ভিতরে থাকবে */
+        left: 0;
+        width: 100%;
+    }
+}
+
+@keyframes pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.option-item {
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px; /* Font size changed to 12px as requested */
+    border-bottom: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans Bengali', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.1px;
+    position: relative;
+    overflow: hidden;
+    color: #050505;
+    flex: 1;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* Last option item has no border */
+.option-item:last-child {
+    border-right: none;
+    border-bottom: none;
+}
+
+/* For the bottom style menu */
+.message-options-bottom .option-item {
+    flex-direction: column;
+    padding: 4px 5px;
+}
+
+.message-options-bottom .option-item::before {
+    margin-right: 0;
+    margin-bottom: 1px;
+    width: 18px;
+    height: 18px;
+}
+
+.option-item:hover, .option-item:active {
+    background-color: #F2F2F2;
+}
+
+.option-item::before {
+    content: '';
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.95;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.option-item.copy::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.option-item.react {
+    color: #0084FF;
+}
+
+.option-item.react::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230084FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cpath d='M8 14s1.5 2 4 2 4-2 4-2'%3E%3C/path%3E%3Cline x1='9' y1='9' x2='9.01' y2='9'%3E%3C/line%3E%3Cline x1='15' y1='9' x2='15.01' y2='9'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.option-item.delete-everyone {
+    color: #E41E3F;
+}
+
+.option-item.delete-everyone::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23E41E3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/%3E%3Cpath d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/%3E%3Cline x1='10' y1='11' x2='10' y2='17'/%3E%3Cline x1='14' y1='11' x2='14' y2='17'/%3E%3C/svg%3E");
+}
+
+.option-item.delete-you {
+    color: #0084FF;
+}
+
+.option-item.delete-you::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230084FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/%3E%3Cpath d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/%3E%3Cline x1='10' y1='11' x2='10' y2='17'/%3E%3Cline x1='14' y1='11' x2='14' y2='17'/%3E%3C/svg%3E");
+}
+
+.option-item.cancel {
+    color: #666666;
+}
+
+.option-item.cancel::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+}
+
+.message-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent; /* কালো ব্যাকগ্রাউন্ড বাদ দেওয়া হয়েছে */
+    z-index: 1050; /* z-index কমানো হলো যাতে নেভিগেশন বারের উপরে না আসে */
+    opacity: 1;
+    display: block;
+}
+
+/* ডেস্কটপ মোডে ওভারলে পজিশন পরিবর্তন */
+@media (min-width: 768px) {
+    .message-overlay {
+        position: absolute; /* ডেস্কটপে পজিশন absolute হবে, যাতে শুধু fullscreen-chat-container এর মধ্যে থাকে */
+        /* ডেস্কটপে কালো ওভারলে বাদ দেওয়া হচ্ছে */
+        background-color: transparent;
+        /* ডেস্কটপে শুধু fullscreen-chat এর ভিতরে ওভারলে থাকবে */
+        top: 56px; /* হেডার ইউনিট হাইট */
+        left: var(--sidebar-width);
+        z-index: 990;
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Touch effect for message bubbles */
+.message {
+    position: relative;
+    overflow: visible; /* বাবলের বাইরেও সামগ্রী দেখাতে overflow visible করা হয়েছে */
+    -webkit-tap-highlight-color: transparent;
+    transform-style: preserve-3d; /* 3D স্তর সমর্থন ইমোজি প্রদর্শনের জন্য */
+    transform: translateZ(0); /* হার্ডওয়্যার অ্যাক্সিলারেশন */
+}
+
+/* Specific styles for light and dark message bubbles */
+.message.light-bubble {
+    color: #000000 !important;
+    font-weight: 500 !important; /* মোটা করা হয়েছে */
+}
+
+.message.light-bubble a {
+    color: #0066CC !important;
+    font-size: 16px !important; /* বড় করা হয়েছে */
+    font-weight: 600 !important; /* আরও মোটা করা হয়েছে */
+}
+
+.message.dark-bubble {
+    color: #FFFFFF !important;
+    font-weight: 500 !important; /* মোটা করা হয়েছে */
+}
+
+.message.dark-bubble a {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 16px !important; /* বড় করা হয়েছে */
+    font-weight: 600 !important; /* আরও মোটা করা হয়েছে */
+}
+
+/* Fullscreen chat container */
+.chat-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    animation: slide-up 0.3s ease;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+/* Fullscreen chat inner container to position elements */
+.fullscreen-chat-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Header styles */
+.fullscreen-header {
+    height: 56px; /* Matching profile page navbar height */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E5E5EA;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+.fullscreen-back {
+    min-width: 70px;
+    cursor: pointer;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.back-content {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+.fullscreen-back-icon {
+    font-size: 20px;
+    margin-right: 8px;
+    color: #000000;
+    line-height: 1.5;
+    position: relative;
+    top: 2px;
+    background: none;
+}
+
+.fullscreen-back-text {
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.5;
+}
+
+.fullscreen-title {
+    flex: 1;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 auto;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50%; /* Wider title area */
+    letter-spacing: -0.3px;
+    position: relative;
+    padding: 8px 0;
+}
+
+.fullscreen-title::after {
+    content: none; /* Remove the line under the title */
+}
+
+.fullscreen-actions {
+    display: flex;
+    gap: 22px;
+    min-width: 70px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.action-icon {
+    font-size: 18px;
+    color: #000000;
+    padding: 10px 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease, color 0.2s ease;
+    position: relative;
+}
+
+/* Messages area */
+.fullscreen-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 70px 20px;
+    background-color: rgba(255, 255, 255, 255);
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    overscroll-behavior: contain; /* Prevent page scrolling when at top/bottom */
+    position: fixed;
+    top: 56px; /* Height of the header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    scroll-behavior: smooth; /* Smooth scrolling when messages are added */
+    height: calc(100% - 126px); /* 56px header + 70px input area */
+}
+
+/* Avatar styles for messages */
+.message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #FFFFFF;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Add spacing for avatar */
+.avatar-spacer {
+    width: 36px; /* Avatar width + margin */
+    flex-shrink: 0;
+}
+
+/* Message wrapper with avatar */
+.message-wrapper.has-avatar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 2px;
+}
+
+/* Consecutive message wrapper with spacer */
+.message-wrapper.consecutive-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 2px;
+}
+
+/* Spacer in place of avatar for consecutive messages */
+.avatar-spacer {
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.date-header {
+    text-align: center;
+    margin: 24px 0 16px;
+    position: relative;
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+.date-header-text {
+    font-size: 12px;
+    color: #666666;
+    background-color: #F2F2F7;
+    padding: 4px 10px;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    border-radius: 12px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+
+.date-header:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #E5E5EA;
+    z-index: 0;
+}
+
+.message-row {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+    width: 100%;
+    clear: both;
+}
+
+.message-row-sent {
+    align-items: flex-end;
+    justify-content: flex-end;
+    display: flex; 
+    flex-direction: column;
+    width: 100%;
+    float: right;
+    text-align: right;
+}
+
+.message-row-received {
+    align-items: flex-start;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    float: left;
+    text-align: left;
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    max-width: 70%;
+    width: auto;
+    position: relative;
+}
+
+.message-row-sent .message-wrapper {
+    align-items: flex-end;
+    float: right;
+    clear: both;
+}
+
+.message-row-received .message-wrapper {
+    align-items: flex-start;
+    float: left;
+    clear: both;
+}
+
+.message-wrapper:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ripple effect animation */
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .message-row {
+        max-width: 100%; /* Allow full width for the row */
+    }
+    
+    .message-wrapper {
+        max-width: 70%; /* Changed to match other message widths */
+    }
+}
+
+.message-row:last-child {
+    margin-bottom: 0;
+}
+
+.consecutive-message {
+    margin-top: 2px;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+}
+
+.message-sent.consecutive-message {
+    border-bottom-right-radius: 4px;
+}
+
+.message-received.consecutive-message {
+    border-bottom-left-radius: 4px;
+}
+
+.message {
+    padding: 12px 30px 12px 18px; /* More padding on right, less on left */
+    border-radius: 18px;
+    font-size: 16px; /* বড় করা হয়েছে */
+    line-height: 1.45;
+    word-wrap: break-word; /* Allow words to break */
+    word-break: break-word; /* Force words to break if needed */
+    overflow-wrap: break-word; /* Break words when necessary */
+    white-space: pre-wrap; /* Preserve spaces but wrap text */
+    position: relative;
+    letter-spacing: -0.1px;
+    min-width: 60px;
+    max-width: 80%; /* Reduce maximum width to prevent overflow */
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+    display: inline-block;
+    hyphens: auto; /* Allow hyphens if needed */
+    text-wrap: balance; /* Balance lines of text */
+    margin: 0 10px; /* Add horizontal margin to keep text away from edges */
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; /* Professional font stack for Bengali and English as requested */
+    font-weight: 500; /* মোটা করা হয়েছে */
+}
+
+.message-sent {
+    /* background color and text color now set via JavaScript based on user's avatar color */
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+    animation: message-sent 0.3s ease;
+    text-align: left;
+    margin-right: 0;
+    margin-left: auto;
+    float: right;
+    clear: both;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+@keyframes message-sent {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.message-received {
+    /* background color and text color now set via JavaScript based on user's avatar color */
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    animation: message-received 0.3s ease;
+    margin-left: 0;
+    margin-right: auto;
+    float: left;
+    clear: both;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+@keyframes message-received {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Removed hover effect as requested */
+.message:hover {
+    box-shadow: none;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #8E8E93;
+    margin-top: 2px;
+    padding: 0 2px;
+    opacity: 0.9;
+    letter-spacing: 0;
+    font-weight: 400;
+    text-align: right;
+}
+
+.message-time-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 2px;
+    gap: 4px;
+}
+
+.message-read-receipt {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+}
+
+.message-read-receipt .fa-check {
+    color: #8E8E93;
+    font-size: 12px;
+}
+
+.message-read-receipt .fa-check-double {
+    color: #000000;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Input area */
+.input-area {
+    background-color: rgba(255, 255, 255, 255);
+    border-top: none;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    position: fixed; /* Fixed position to ensure it stays at bottom */
+    z-index: 100; /* Higher z-index to ensure it's above everything */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+/* Container styling for fullscreen chat */
+.chat-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.message-input-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 6px; /* Match search input from homepage */
+    background-color: #e9e9e9; /* Match search input from homepage */
+    padding: 4px 10px 4px 16px;
+    border: none;
+    transition: all 0.2s ease;
+    overflow: hidden; /* Needed for ripple effect */
+    cursor: text; /* Add text cursor to indicate it's for typing */
+}
+
+.message-input-container:focus-within {
+    background-color: #e9e9e9; /* Keep same background on focus */
+    box-shadow: none; /* Match search bar */
+}
+
+.message-input {
+    flex: 1;
+    border: none;
+    padding: 8px 0;
+    font-size: 16px !important; /* Match search input */
+    font-weight: 500; /* Match search input */
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    min-height: 24px;
+    max-height: 100px;
+    overflow: hidden;
+    -webkit-appearance: none;
+    appearance: none;
+    resize: none;
+    letter-spacing: -0.1px;
+    line-height: 1.45;
+    color: #1f2937; /* Match search input color */
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.message-input:focus {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.message-input::placeholder {
+    color: #4b5563; /* Match search input placeholder color */
+    opacity: 0.8;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+    font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.input-tools {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 8px;
+}
+
+.input-tool-icon {
+    font-size: 18px;
+    color: #8E8E93;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.input-tool-icon:hover, .input-tool-icon:active {
+    color: #555;
+}
+
+.send-button {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #404547 0%, #05060E 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
+    margin-left: 4px;
+    position: relative;
+    z-index: 51; /* Ensure the send button is always visible */
+    cursor: pointer;
+}
+
+.send-button:active {
+    background: linear-gradient(135deg, #353839 0%, #05060E 90%);
+    transform: scale(0.95);
+}
+
+.send-button:hover {
+    background: linear-gradient(135deg, #4c5153 0%, #141521 100%);
+}
+
+.send-icon {
+    font-size: 16px;
+    color: white;
+    position: relative;
+    left: 1px; /* Small adjustment to center the new arrow icon visually */
+}
+
+/* Media queries for responsive design */
+@media (min-width: 768px) {
+    /* Tablet and desktop styles */
+    .chat-fullscreen {
+        position: fixed;
+        width: calc(100% - var(--sidebar-width));
+        height: 100%;
+        top: 0;
+        left: var(--sidebar-width);
+        right: 0;
+        bottom: 0;
+        transform: none;
+        border-radius: 0;
+        box-shadow: none;
+        animation: none; /* No animation to prevent zoom effect */
+        z-index: 900; /* নেভিগেশন বারের নিচে রাখা হল */
+        background-color: white;
+        overflow: hidden;
+    }
+    
+    /* ডেক্সটপ মোডে মেসেজ ওভারলে এবং অপশন মেনু নেভিগেশন বারের নিচে থাকবে */
+    .message-overlay {
+        left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+        top: 56px; /* হেডার হাইট */
+        z-index: 950; /* নেভিগেশন বারের নিচে */
+        background-color: transparent; /* পূর্ণ স্বচ্ছ করা হলো */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    
+    /* ডেক্সটপ মোডে মেসেজ অপশন মেনু এবং রিয়াকশন সিলেক্টর Z-index */
+    .message-options {
+        z-index: 970; /* নেভিগেশন বারের নিচে কিন্তু ওভারলে এর উপরে */
+    }
+    
+    .reaction-emoji-selector {
+        z-index: 970; /* নেভিগেশন বারের নিচে কিন্তু ওভারলে এর উপরে */
+        background-color: white; /* ডেস্কটপে সাদা ব্যাকগ্রাউন্ড রাখা হবে */
+    }
+    
+    @keyframes slide-in-right {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .fullscreen-header {
+        border-radius: 0;
+        height: 56px; /* Changed to match profile page navbar height */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #E5E5EA;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: var(--sidebar-width);
+        right: 0;
+        width: calc(100% - var(--sidebar-width));
+        z-index: 1001;
+    }
+    
+    .fullscreen-back {
+        min-width: 80px;
+        cursor: pointer;
+        padding: 0;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        position: relative;
+        z-index: 1002;
+        -webkit-tap-highlight-color: transparent;
+        width: 120px;
+        background-color: transparent; /* Ensure background is transparent */
+    }
+    
+    .back-content {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1002;
+        pointer-events: auto; /* Ensure events pass through */
+        cursor: pointer; /* Add cursor pointer to show it's clickable */
+        position: relative; /* Add positioning context */
+    }
+    
+    .fullscreen-back-icon {
+        font-size: 20px;
+        margin-right: 8px;
+        color: #000000;
+        line-height: 1.5;
+        position: relative;
+        top: 2px;
+        background: none;
+    }
+    
+    .fullscreen-back-text {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        line-height: 1.5;
+        color: #000000;
+    }
+    
+    .fullscreen-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        max-width: 60%;
+    }
+    
+    .fullscreen-title::after {
+        content: none; /* Remove the line under the title */
+    }
+    
+    .fullscreen-actions {
+        gap: 24px;
+    }
+    
+    .action-icon {
+        font-size: 20px;
+        padding: 12px 0;
+    }
+    
+    .fullscreen-messages {
+        padding: 16px 24px;
+    }
+    
+    .message {
+        font-size: 16px;
+        padding: 12px 32px 12px 18px; /* More padding on right, less on left */
+        min-width: 70px;
+        display: inline-block;
+        word-wrap: break-word; /* Allow words to break */
+        word-break: break-word; /* Force words to break if needed */
+        overflow-wrap: break-word; /* Break words when necessary */
+        white-space: pre-wrap; /* Preserve spaces but wrap text */
+        hyphens: auto; /* Allow hyphens if needed */
+        text-wrap: balance; /* Balance lines of text */
+        max-width: 80%; /* Reduce maximum width to prevent overflow */
+        box-sizing: border-box; /* Ensure padding is included in width calculation */
+        margin: 0 10px; /* Add horizontal margin to keep text away from edges */
+        font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; /* Professional font stack for Bengali and English as requested */
+        font-weight: 400; /* Regular weight as requested */
+    }
+    
+    .input-area {
+        padding: 16px 24px;
+        border-radius: 0;
+        border-top: none;
+        position: fixed;
+        bottom: 0;
+        left: var(--sidebar-width);
+        right: 0;
+        width: calc(100% - var(--sidebar-width));
+        background-color: rgba(255, 255, 255, 255);
+        z-index: 1000; /* Very high z-index */
+        box-shadow: none;
+    }
+    
+    /* Message container styling */
+    .fullscreen-messages {
+        padding: 16px 24px 85px 24px; /* Add extra padding at the bottom to account for the fixed input area */
+        position: fixed;
+        top: 56px; /* Match the header height */
+        left: var(--sidebar-width);
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        background-color: rgba(255, 255, 255, 255);
+        width: calc(100% - var(--sidebar-width));
+        height: calc(100% - 136px); /* 56px header + 80px input area */
+    }
+    
+    .message-input-container {
+        padding: 2px 5px 2px 16px;
+        border-radius: 6px;
+        background-color: #e9e9e9;
+    }
+    
+    .message-input {
+        font-size: 16px;
+        padding: 12px 0;
+    }
+    
+    .input-tools {
+        padding: 0 12px;
+        gap: 16px;
+    }
+    
+    .input-tool-icon {
+        font-size: 19px;
+    }
+    
+    .send-button {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #404547 0%, #05060E 100%);
+    }
+    
+    .send-icon {
+        font-size: 20px;
+    }
+}
+
+/* For very large screens */
+@media (min-width: 1200px) {
+    .chat-fullscreen {
+        /* Still use the same layout, just adjust the content inside */
+        max-width: calc(100% - var(--sidebar-width));
+    }
+    
+    .fullscreen-header {
+        height: 56px; /* Changed to match profile page navbar height in desktop mode too */
+        padding: 0 24px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .fullscreen-back {
+        min-width: 90px;
+    }
+    
+    .fullscreen-title {
+        font-size: 19px;
+        letter-spacing: -0.5px;
+    }
+    
+    .action-icon {
+        font-size: 21px;
+    }
+    
+    .fullscreen-messages {
+        padding: 20px 32px 85px 32px;
+        top: 56px; /* Update to match header height */
+        height: calc(100% - 136px); /* 56px header + 80px input area */
+    }
+    
+    .message {
+        font-size: 17px;
+        padding: 14px 34px 14px 20px; /* More padding on right, less on left */
+        min-width: 80px;
+        display: inline-block;
+        word-wrap: break-word; /* Allow words to break */
+        word-break: break-word; /* Allow words to break */
+        overflow-wrap: break-word; /* Break words when necessary */
+        white-space: pre-wrap; /* Preserve spaces but wrap text */
+        hyphens: auto; /* Allow hyphens if needed */
+        text-wrap: balance; /* Balance lines of text */
+        max-width: 80%; /* Reduce maximum width to prevent overflow */
+        box-sizing: border-box; /* Ensure padding is included in width calculation */
+        margin: 0 10px; /* Add horizontal margin to keep text away from edges */
+        font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; /* Professional font stack for Bengali and English as requested */
+        font-weight: 400; /* Regular weight as requested */
+    }
+    
+    .message-row {
+        max-width: 70%;
+    }
+    
+    .input-area {
+        padding: 18px 28px;
+    }
+    
+    .message-input-container {
+        padding: 3px 6px 3px 18px;
+        border-radius: 6px;
+        box-shadow: none;
+        background-color: #e9e9e9;
+    }
+    
+    .message-input {
+        font-size: 17px;
+        padding: 12px 0;
+        line-height: 1.5;
+    }
+    
+    .input-tools {
+        padding: 0 14px;
+        gap: 18px;
+    }
+    
+    .input-tool-icon {
+        font-size: 20px;
+    }
+    
+    .send-button {
+        width: 46px;
+        height: 46px;
+        background: linear-gradient(135deg, #404547 0%, #05060E 100%);
+    }
+    
+    .send-icon {
+        font-size: 21px;
+    }
+}
+
+/* Fix for iOS to prevent the keyboard from pushing the view */
+@supports (-webkit-touch-callout: none) {
+    .chat-fullscreen {
+        height: -webkit-fill-available;
+    }
+    
+    .fullscreen-messages {
+        padding-bottom: 85px; /* Extra padding at bottom for iOS to account for input area */
+    }
+    
+    .input-area {
+        /* Fix for iOS bottom bar */
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+    
+    .message-input-container {
+        /* iOS specific adjustments */
+        border: none;
+        background-color: #e9e9e9;
+    }
+    
+    .input-tool-icon {
+        /* Make touch targets bigger on iOS */
+        padding: 5px;
+        margin: -5px;
+    }
+}

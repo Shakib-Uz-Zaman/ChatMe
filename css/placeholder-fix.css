@@ -1,0 +1,66 @@
+/* Global fix for search placeholder visibility */
+input::placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+input::-webkit-input-placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+input::-moz-placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+input:-ms-input-placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+input::-ms-input-placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+/* Specific styling for search field placeholder */
+.search-field::placeholder {
+    padding-left: 0 !important;
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+/* Fix for search clear button position */
+.search-clear {
+    position: absolute !important;
+    right: 10px !important;
+    z-index: 10 !important;
+    color: #4b5563 !important;
+    background-color: transparent !important;
+}
+
+/* Adjust search field padding and position */
+.search-field {
+    padding-right: 40px !important;
+    width: calc(100% - 40px) !important;
+}
+
+/* Ensure the search wrapper is positioned properly */
+.search-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Show placeholder on focus with higher contrast */
+.search-field:focus::placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+}

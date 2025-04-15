@@ -1,0 +1,617 @@
+/* Fixed header styles */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--body-bg, #f9fafb);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Make page transitions faster */
+body {
+    transition: none !important;
+}
+
+.main-content {
+    height: calc(100vh - var(--header-height, 40px));
+    overflow-y: auto;
+}
+
+/* Toast message styles */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    background-color: white;
+    border-left: 4px solid var(--primary, #3b82f6);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 12px;
+    overflow: hidden;
+    padding: 12px 16px;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast-message {
+    flex: 1;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 12px;
+}
+
+.toast-close:hover {
+    color: #4b5563;
+}
+
+/* Chat Styles for new UI */
+.chat-item {
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 14px 16px !important;
+    background-color: var(--background-color) !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    /* transition removed as per requirements */
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    z-index: 1 !important;
+}
+
+/* Hover effect completely removed as per requirements */
+.chat-item:hover {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    transform: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    animation: none !important;
+}
+
+.chat-avatar-initial {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Styling for the avatar link */
+a.chat-avatar {
+    text-decoration: none;
+    display: block;
+    border-radius: 50%;
+    overflow: visible;
+    margin-right: 12px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+a.chat-avatar:hover, a.chat-avatar:active {
+    transform: scale(1.05);
+}
+
+/* Status indicator dot for avatars */
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px; /* Size updated to 15px as requested */
+    height: 15px; /* Size updated to 15px as requested */
+    border-radius: 50%;
+    border: 2px solid white;
+    z-index: 5;
+    display: none; /* By default, don't show status indicator */
+}
+
+.status-indicator.online {
+    background: linear-gradient(135deg, #404547 0%, #05060E 100%); /* Login button color */
+    display: block; /* Only show for online users */
+}
+
+/* Remove original navbar-title styling for desktop mode only */
+@media (min-width: 641px) {
+    /* Override the original styling completely */
+    .navbar-title {
+        position: static !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Menu container is now a flex container with title next to it */
+    .menu-container {
+        display: flex !important;
+        align-items: center !important;
+    }
+}
+
+/* Navbar Actions */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+/* New Modern Search Bar Styles */
+.navbar-search {
+    width: 100%;
+    max-width: 300px;
+    margin-left: auto;
+}
+
+/* Desktop-specific search bar positioning - এটি শুধুমাত্র ডেস্কটপ লেআউটের জন্য */
+@media (min-width: 992px) {
+    /* নতুন ডেস্কটপ সার্চবার লেআউট */
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        height: 64px;
+        position: relative;
+    }
+    
+    /* মেনু কন্টেইনার এবং "Messages" টেক্সট */
+    .menu-container {
+        display: flex;
+        align-items: center;
+        flex: 0 0 25%; /* বাম দিকে ফিক্সড স্পেস */
+        justify-content: flex-start;
+        z-index: 20; /* উপরে থাকবে যাতে অন্য কিছু এটাকে ওভারল্যাপ না করে */
+    }
+    
+    /* সার্চবার ডান দিকে অবস্থান */
+    .navbar-search {
+        flex: 0 0 auto; /* প্রয়োজন অনুসারে সাইজ নেবে */
+        max-width: 600px; /* সার্চবার আকার বাড়ানো হয়েছে */
+        width: 45%; /* স্ক্রিনের 45% দখল করবে */
+        margin: 0; /* মার্জিন শূন্য */
+        position: absolute; /* নিখুঁত পজিশনিং */
+        right: 5%;
+        left: auto;
+        transform: none;
+        z-index: 10;
+    }
+    
+    /* সার্চ বারের দেখতে কেমন হবে */
+    .search-wrapper {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eeeeee;
+        height: 42px; /* আরও বড় উচ্চতা */
+        padding: 0 2px;
+        background-color: #f8f9fa;
+        transition: all 0.2s ease;
+    }
+    
+    .search-wrapper:focus-within {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        border-color: #e0e0e0;
+        background-color: white;
+    }
+    
+    /* Messages" টেক্সটের সঠিক অবস্থান */
+    .navbar-title {
+        margin-left: 12px !important;
+        font-weight: 600 !important;
+    }
+    
+    /* সার্চবার ইনপুট ফিল্ড */
+    .search-field {
+        font-size: 15px !important;
+        padding-left: 16px !important;
+    }
+    
+    /* সার্চ আইকন */
+    .search-icon {
+        left: 12px !important;
+        color: #8e8e93 !important;
+    }
+    
+    /* প্লেসহোল্ডার */
+    .search-field::placeholder {
+        padding-left: 30px !important;
+        font-size: 15px !important;
+    }
+}
+
+.search-container {
+    width: 100%;
+    position: relative;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    border-radius: 6px; /* বর্ডার রেডিয়াস কমানো হল */
+    border: none;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+    height: 38px;
+    transform: translateZ(0); /* Prevent zoom issues */
+    will-change: transform; /* Optimizes browser rendering */
+    touch-action: none; /* Aggressive zoom prevention */
+    user-select: none; /* Prevent text selection that might cause zoom */
+}
+
+.search-wrapper:focus-within {
+    background-color: #f3f4f6;
+    box-shadow: none;
+}
+
+.search-icon {
+    color: #a9adb5 !important;
+    font-size: 16px;
+    padding: 0 6px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 15px; /* বাম দিকে সরিয়ে দেওয়া হয়েছে */
+    z-index: 1;
+}
+
+/* Hide search icon when input has text or on focus */
+.search-field:not(:placeholder-shown) ~ .search-icon,
+.search-field:focus ~ .search-icon {
+    display: none !important;
+}
+
+/* Global styling for all placeholder inputs */
+.search-field::placeholder {
+    color: #000000 !important; 
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
+/* Show placeholder on focus with higher contrast */
+.search-field:focus::placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+}
+
+.search-field {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px !important; /* Force fixed font size */
+    font-weight: 500;
+    color: #1f2937;
+    width: 100%;
+    height: 100%;
+    padding-left: 15px; /* বাম পাশ থেকে লেখা শুরু */
+    padding-right: 40px; /* ডান পাশে আইকনের জন্য জায়গা */
+    text-indent: 0;
+    -webkit-appearance: none; /* Remove default iOS styling */
+    touch-action: none; /* Completely disable touch action */
+    transform: translateZ(0); /* Prevent zoom issues */
+    -webkit-user-select: none !important; /* Prevent selection that might cause zoom */
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    min-height: 38px; /* Keep a minimum height */
+    will-change: transform; /* Optimizes browser rendering */
+}
+
+/* Different placeholder spacing for desktop and mobile */
+@media (min-width: 641px) {
+    .search-field::placeholder {
+        color: #4b5563 !important;
+        font-weight: 500 !important;
+        text-indent: 0;
+        padding-left: 0;
+        position: relative;
+        left: 0;
+        opacity: 1 !important;
+    }
+    
+    .search-icon {
+        right: 10px; /* সার্চ আইকন ডানে */
+        left: auto;
+    }
+    
+    .search-field {
+        padding-left: 20px; /* ডেস্কটপে টেক্সট ফিল্ড সমন্বয় */
+        padding-right: 50px; /* ক্রস বাটনের জন্য জায়গা রাখা */
+    }
+    
+    /* ডেস্কটপ ভিউতে সার্চ ক্লোজ বাটনের উন্নতি */
+    #search-close {
+        min-width: 50px !important;
+        min-height: 100% !important;
+        width: 50px !important;
+        z-index: 2000 !important;
+        cursor: pointer !important;
+        -webkit-tap-highlight-color: transparent !important;
+        touch-action: manipulation !important;
+        user-select: none !important;
+        transition: background-color 0.1s ease !important;
+    }
+    
+    #search-close:hover {
+        background-color: rgba(0, 0, 0, 0.07) !important;
+    }
+    
+    #search-close i {
+        font-size: 20px !important;
+        pointer-events: none !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .search-field::placeholder {
+        color: #4b5563 !important;
+        font-weight: 500 !important;
+        text-indent: 0;
+        padding-left: 0;
+        position: relative;
+        left: 0;
+        opacity: 1 !important;
+    }
+}
+
+.search-clear {
+    color: #9ca3af;
+    font-size: 16px;
+    padding: 0 12px 0 8px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Only show the clear button when the input has content */
+.search-field:not(:placeholder-shown) ~ .search-clear {
+    display: flex;
+}
+
+/* Cross button styling for better tap target - এটি মোবাইল ও ডেস্কটপ উভয় ক্ষেত্রেই প্রযোজ্য */
+#search-close {
+    z-index: 1000 !important; /* Higher z-index to ensure it's clickable */
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 48px !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.02) !important;
+    border-radius: 0 6px 6px 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Hover effect removed as per requirements */
+.search-clear:hover {
+    color: #9ca3af;
+}
+
+/* Close button styling removed as we're using a div with custom dimensions */
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .compose-button {
+        bottom: 80px;
+        right: 20px;
+    }
+    
+    .navbar-search {
+        width: 100%;
+        max-width: 200px;
+        margin-right: 10px;
+    }
+    
+    .search-wrapper {
+        height: 36px;
+    }
+    
+    .search-field {
+        font-size: 15px;
+        padding-left: 15px; /* আরও বাম পাশ থেকে লেখা শুরু করার জন্য */
+        text-indent: 0;
+    }
+    
+    .search-field::placeholder {
+        padding-left: 25px; /* প্লেসহোল্ডার টেক্সট আগের অবস্থানে রাখা */
+    }
+    
+    .search-icon {
+        font-size: 15px;
+        padding: 0;
+        color: #a9adb5 !important;
+        position: absolute;
+        right: 15px; /* ডান দিকে সরিয়ে দেওয়া হয়েছে */
+        left: auto;
+    }
+    
+    .search-clear {
+        font-size: 15px;
+        padding: 0 10px 0 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Show navbar title with logo in mobile view, exactly matching profile page */
+    .navbar-title {
+        display: inline-flex !important;
+        justify-content: center;
+        position: static !important;
+        transform: none !important;
+        margin: 0 !important;
+        left: auto !important;
+    }
+    
+    /* Make the title text same as profile page - use exact same font weight and size */
+    .navbar-title span {
+        font-size: inherit !important;
+        font-weight: 900 !important;
+    }
+    
+    /* Make logo exactly same size as profile page */
+    .navbar-title img {
+        height: 24px !important;
+        margin-right: 8px !important;
+    }
+    
+    .navbar-search {
+        flex: 0 1 auto;
+        max-width: none;
+        margin: 0 5px;
+        margin-left: auto;
+    }
+    
+    /* মোবাইল ভিউতে সার্চবার আরও বামদিকে সরানো */
+    #search-container {
+        left: 35% !important; /* 50% থেকে কমিয়ে 35% করা হয়েছে যাতে বামদিকে সরে যায় */
+        transform: translateX(-35%) !important; /* transformation-ও একই অনুপাতে পরিবর্তন করা হয়েছে */
+    }
+    
+    /* মোবাইল ভিউতে সার্চ ক্লোজ বাটনের উন্নতি */
+    #search-close {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        width: 40px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        border-radius: 0 6px 6px 0 !important;
+        background-color: rgba(0, 0, 0, 0.03) !important;
+    }
+    
+    #search-close i {
+        font-size: 20px !important;
+    }
+    
+    .search-wrapper {
+        width: 100%;
+    }
+    
+    .search-field {
+        font-size: 15px;
+        padding-left: 15px; /* আরও বাম পাশ থেকে লেখা শুরু করার জন্য */
+        text-indent: 0;
+    }
+    
+    .search-field::placeholder {
+        padding-left: 25px; /* প্লেসহোল্ডার টেক্সট আগের অবস্থানে রাখা */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Increase tap target for cross button on small screens */
+    #search-close {
+        min-width: 52px !important;
+        min-height: 52px !important;
+        margin: -6px !important;
+        padding: 14px !important;
+        touch-action: manipulation !important;
+    }
+    
+    #search-close i {
+        font-size: 18px !important;
+    }
+    
+    /* For smaller mobile devices, make navbar more compact */
+    .navbar {
+        padding: 0.65rem 1rem;
+    }
+
+    /* Make title text match profile page exactly - don't modify font size */
+    .navbar-title span {
+        font-size: inherit !important;
+        font-weight: 900 !important;
+    }
+    
+    /* Keep logo size consistent with profile page - same 24px */
+    .navbar-title img {
+        height: 24px !important;
+        margin-right: 8px !important;
+    }
+    
+    /* ছোট মোবাইল স্ক্রিনের জন্য সার্চবার সেটিংস */
+    #search-container {
+        left: 30% !important; /* আরও বাম দিকে সরিয়ে দেওয়া হয়েছে */
+        transform: translateX(-30%) !important; /* transformation-ও একই অনুপাতে পরিবর্তন করা হয়েছে */
+    }
+    
+    /* ছোট স্ক্রিনে সার্চ ক্লোজ বাটনের উন্নতি */
+    #search-close {
+        min-width: 38px !important;
+        min-height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 38px !important;
+        border-radius: 0 6px 6px 0 !important;
+        background-color: rgba(0, 0, 0, 0.035) !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    /* Search icon adjustments */
+    .search-icon {
+        padding: 0;
+        font-size: 16px;
+        color: #a9adb5 !important;
+        position: absolute;
+        right: 15px; /* ডান দিকে সরিয়ে দেওয়া হয়েছে */
+        left: auto;
+    }
+    
+    .search-clear {
+        padding: 0 10px 0 6px;
+        font-size: 16px;
+    }
+    
+    .search-field {
+        font-size: 16px;
+        padding-left: 15px; /* আরও বাম পাশ থেকে লেখা শুরু করার জন্য */
+        text-indent: 0;
+    }
+    
+    .search-field::placeholder {
+        padding-left: 25px; /* প্লেসহোল্ডার টেক্সট আগের অবস্থানে রাখা */
+    }
+    
+    .navbar-search {
+        margin: 0 4px;
+    }
+}
