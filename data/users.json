@@ -1,1 +1,14 @@
-
+{
+    "users": [
+        {
+            "id": 11,
+            "display_name": "Shakib Uz Zaman",
+            "username": "shakib_uz_zaman",
+            "avatar_color": "#35aa10",
+            "network_status": "online",
+            "network_type": "cellular",
+            "last_active": 1744652675,
+            "created_at": 1744652498
+        }
+    ]
+}
